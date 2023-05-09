@@ -16,7 +16,8 @@ import fr.univtours.polytech.locationapp.model.address.Feature;
 
 @WebServlet("/searchAddress")
 public class AddressServlet extends HttpServlet {
-
+	private static final long serialVersionUID = 1L;
+	
 	@EJB
 	private AddressBusinessLocal addressBusiness;
 
@@ -41,5 +42,4 @@ public class AddressServlet extends HttpServlet {
 		// On redirige vers la JSP.
 		request.getRequestDispatcher("addresses.jsp").forward(request, response);
 	}
-
 }

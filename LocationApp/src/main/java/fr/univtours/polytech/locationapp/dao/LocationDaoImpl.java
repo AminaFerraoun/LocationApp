@@ -20,6 +20,7 @@ public class LocationDaoImpl implements LocationDao {
 		em.persist(bean);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<LocationBean> getLocations() {
 		Query request = em.createQuery("select l from LocationBean l");
@@ -41,6 +42,7 @@ public class LocationDaoImpl implements LocationDao {
 		em.remove(locationBean);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<LocationBean> getLocationCity(String city) {
 		Query request = em.createQuery("select l from LocationBean l where city=:cityParam");
@@ -48,12 +50,14 @@ public class LocationDaoImpl implements LocationDao {
 		return request.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<LocationBean> getLocationSortedCityAsc() {
 		Query request = em.createQuery("select l from LocationBean l order by city asc");
 		return request.getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<LocationBean> getLocationSortedCityDesc() {
 		Query request = em.createQuery("select l from LocationBean l order by city desc");
