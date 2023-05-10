@@ -5,14 +5,21 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import fr.univtours.polytech.locationapp.dao.AddressDao;
 import fr.univtours.polytech.locationapp.dao.LocationDao;
+import fr.univtours.polytech.locationapp.dao.WeatherDao;
 import fr.univtours.polytech.locationapp.model.LocationBean;
+import fr.univtours.polytech.locationapp.model.address.Feature;
 
 @Stateless
 public class LocationBusinessImpl implements LocationBusinessLocal, LocationBusinessRemote {
 
 	@Inject
 	private LocationDao locationDao;
+	@Inject
+	private WeatherDao weatherDao;
+	@Inject
+	private AddressDao addressDao;
 
 	@Override
 	public void addLocation(LocationBean bean) {
@@ -21,12 +28,28 @@ public class LocationBusinessImpl implements LocationBusinessLocal, LocationBusi
 
 	@Override
 	public List<LocationBean> getLocations() {
+		
+		for (LocationBean location : locationDao.getLocations()) {
+			
+			String address = location.getAddress();
+			Feature addressFeature = addressDao.getAddresses(address).get(0);
+			List<Double> coordinates = addressFeature.getGeometry().getCoordinates();
+			location.setTemperature(weatherDao.getTemperature(coordinates));
+		}
+
 		return locationDao.getLocations();
+
 	}
 
 	@Override
 	public LocationBean getLocation(Integer id) {
-		return locationDao.getLocation(id);
+		LocationBean location = locationDao.getLocation(id);
+		
+		String address = location.getAddress();
+		Feature addressFeature = addressDao.getAddresses(address).get(0);
+		List<Double> coordinates = addressFeature.getGeometry().getCoordinates();
+		location.setTemperature(weatherDao.getTemperature(coordinates));
+		return location;
 	}
 
 	@Override
@@ -53,7 +76,7 @@ public class LocationBusinessImpl implements LocationBusinessLocal, LocationBusi
 	@Override
 	public List<LocationBean> getLocationsSortedCityDesc() {
 		return locationDao.getLocationSortedCityDesc();
-		
+
 	}
 
 }

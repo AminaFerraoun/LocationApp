@@ -25,4 +25,6 @@ public interface LocationBusinessLocal {
 
 	public void deleteLocation(Integer id);
 	
+	
+	
 }
