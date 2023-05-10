@@ -93,7 +93,8 @@ public class LocationBean implements Serializable {
 	}
 
 	public void setTemperature(Double temperature) {
-		this.temperature = temperature;
+
+		this.temperature = (double) Math.round(temperature * 100) / 100;;
 	}
 
 	/**
