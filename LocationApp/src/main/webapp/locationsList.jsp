@@ -21,7 +21,10 @@
 					<p>${loc.address} - ${loc.city} (${loc.zipCode})<br/><br/><br/>
 					Prix pour une nuit : ${loc.nightPrice} euros<br/><br/><br/>
 					
-					<c:if test="${not empty loc.temperature}"> 
+					<c:if test="${loc.temperature == null}"> 
+						Température actuelle : ---</p>
+					</c:if>
+					<c:if test="${loc.temperature != null}"> 
 						Température actuelle : ${loc.temperature}°C</p>
 					</c:if>
 					
