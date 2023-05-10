@@ -34,11 +34,12 @@ public class LocationBusinessImpl implements LocationBusinessLocal, LocationBusi
 			String address = location.getAddress();
 			String zipCode = location.getZipCode();
 			String fullAddress = address + " " + zipCode;
-			Feature addressFeature = addressDao.getAddresses(fullAddress).get(0);
-			List<Double> coordinates = addressFeature.getGeometry().getCoordinates();
-			location.setTemperature(weatherDao.getTemperature(coordinates)-273.15);
+			if (addressDao.getAddresses(fullAddress).size() > 0) {
+				Feature addressFeature = addressDao.getAddresses(fullAddress).get(0);
+				List<Double> coordinates = addressFeature.getGeometry().getCoordinates();
+				location.setTemperature(weatherDao.getTemperature(coordinates) - 273.15);
+			}
 		}
-
 		return locationDao.getLocations();
 
 	}
@@ -48,9 +49,13 @@ public class LocationBusinessImpl implements LocationBusinessLocal, LocationBusi
 		LocationBean location = locationDao.getLocation(id);
 		
 		String address = location.getAddress();
-		Feature addressFeature = addressDao.getAddresses(address).get(0);
-		List<Double> coordinates = addressFeature.getGeometry().getCoordinates();
-		location.setTemperature(weatherDao.getTemperature(coordinates)-273.15);
+		String zipCode = location.getZipCode();
+		String fullAddress = address + " " + zipCode;
+		if (addressDao.getAddresses(fullAddress).size() > 0) {
+			Feature addressFeature = addressDao.getAddresses(fullAddress).get(0);
+			List<Double> coordinates = addressFeature.getGeometry().getCoordinates();
+			location.setTemperature(weatherDao.getTemperature(coordinates) - 273.15);
+		}
 		return location;
 	}
 

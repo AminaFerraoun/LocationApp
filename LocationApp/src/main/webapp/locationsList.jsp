@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
-<head>
+<head>	
 <meta charset="ISO-8859-1">
 <title>Liste des locations</title>
 <link href="css/style.css" rel="stylesheet">
@@ -20,7 +20,10 @@
 					</legend>
 					<p>${loc.address} - ${loc.city} (${loc.zipCode})<br/><br/><br/>
 					Prix pour une nuit : ${loc.nightPrice} euros<br/><br/><br/>
-					Température actuelle : ${loc.temperature}°C</p>
+					
+					<c:if test="${not empty loc.temperature}"> 
+						Température actuelle : ${loc.temperature}°C</p>
+					</c:if>
 					
 					<p><img src="data:image/jpg;base64,${loc.base64Image}"
 							width="200px" /></p>
