@@ -31,7 +31,7 @@ public class LocationBean implements Serializable {
 	private byte[] picture;
 
 	@Transient
-	private Double temperature;
+	private Double temperature = null;
 	
 
 

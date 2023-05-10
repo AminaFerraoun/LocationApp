@@ -34,11 +34,12 @@ public class LocationBusinessImpl implements LocationBusinessLocal, LocationBusi
 			String address = location.getAddress();
 			String zipCode = location.getZipCode();
 			String fullAddress = address + " " + zipCode;
-			Feature addressFeature = addressDao.getAddresses(fullAddress).get(0);
-			List<Double> coordinates = addressFeature.getGeometry().getCoordinates();
-			location.setTemperature(weatherDao.getTemperature(coordinates)-273);
+			if (addressDao.getAddresses(fullAddress).size() > 0) {
+				Feature addressFeature = addressDao.getAddresses(fullAddress).get(0);
+				List<Double> coordinates = addressFeature.getGeometry().getCoordinates();
+				location.setTemperature(weatherDao.getTemperature(coordinates) - 273);
+			}
 		}
-
 		return locationDao.getLocations();
 
 	}
